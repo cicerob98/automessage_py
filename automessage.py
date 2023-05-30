@@ -18,6 +18,8 @@ interface = Tk()
 
 interface.title("Auto Message")
 text = Label(interface, text="Digite qual mensagen deseja enviar e clique no botão abaixo para iniciar.")
+interface.minsize(405, 120)
+interface.maxsize(405, 120)
 text.grid(column=0, row=0, padx=10, pady=10)
 
 entry = Entry(interface, width= 50)
