@@ -1,26 +1,30 @@
 import pyautogui
 from time import sleep
 import keyboard
+import os
+import threading
 from tkinter import *
 
+def keyListener():
+    while True:
+        if keyboard.is_pressed('esc'): # it will stop working by clicking 'esc' you can change to to any key
+            os._exit(0)
 
 def typing():
     sleep(5)
     message = message_entry.get()
-    total_messages = int(text_entry.get())
+    try:
+        total_messages = int(text_entry.get())
+    except ValueError:
+        raise Exception("Digite um número inteiro.")
 
     while total_messages > 0:
-        pyautogui.write(message, interval= 0.1) # it will write the typed message with interval to simulate a user typing
+
+        pyautogui.write(message, interval= 0.2) # it will write the typed message with interval to simulate a user typing
         pyautogui.press('enter')
         total_messages -= 1
-        
-        try:
-                if keyboard.is_pressed('esc'): # it will stop working by clicking 'esc' you can change to to any key
-                    break
-                else:
-                    pass
-        finally:
-            pass
+
+        sleep(3)
 
 interface = Tk()
 
@@ -45,4 +49,5 @@ text_entry.grid(column=0, row=3, padx=10, pady=10)
 bt = Button(interface, text="Escrever Mensagens", command=typing)
 bt.grid(column=0, row=4, padx=10, pady=10)
 
-interface.mainloop()
+threading.Thread(target=keyListener).start()
+threading.Thread(interface.mainloop())
